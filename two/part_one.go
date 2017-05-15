@@ -13,13 +13,11 @@ type Key struct {
 	L    bool
 }
 
-func KeypadCode(lines []string, keypad map[int]Key, startingIndex int) string {
-	codeSize := len(lines)
-	code := make([]string, codeSize)
+func KeypadCode(lines []string, keypad map[int]Key, currentKeypadIndex int) string {
+	code := make([]string, len(lines))
 
 	rowsQty := int(math.Sqrt(float64(len(keypad))))
 
-	currentKeypadIndex := 4
 	currentKey := keypad[currentKeypadIndex]
 
 	for i, line := range lines {
