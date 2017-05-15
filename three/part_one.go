@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
-func IsTriangle(triangles string) bool {
-	sidesAsString := strings.Split(triangles, " ")
+func IsTriangle(angles string) bool {
+	sidesAsString := strings.Split(angles, " ")
 	sidesAsInts := make([]int, 0)
 
 	for _, side := range sidesAsString {
