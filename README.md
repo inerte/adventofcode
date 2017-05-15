@@ -1,2 +1,2 @@
 # adventofcode
-Advent of Code in Golang
+[Advent of Code](http://adventofcode.com/) in Golang
