@@ -13,23 +13,9 @@ type Key struct {
 	L    bool
 }
 
-func DayTwoPartOne(directions string) string {
-	lines := strings.Split(directions, "\n")
+func KeypadCode(lines []string, keypad map[int]Key, startingIndex int) string {
 	codeSize := len(lines)
 	code := make([]string, codeSize)
-
-	keypad := make(map[int]Key)
-	keypad[0] = Key{"1", false, true, true, false}
-	keypad[1] = Key{"2", false, true, true, true}
-	keypad[2] = Key{"3", false, false, true, true}
-
-	keypad[3] = Key{"4", true, true, true, false}
-	keypad[4] = Key{"5", true, true, true, true}
-	keypad[5] = Key{"6", true, false, true, true}
-
-	keypad[6] = Key{"7", true, true, false, false}
-	keypad[7] = Key{"8", true, true, false, true}
-	keypad[8] = Key{"9", true, false, false, true}
 
 	rowsQty := int(math.Sqrt(float64(len(keypad))))
 
@@ -56,4 +42,23 @@ func DayTwoPartOne(directions string) string {
 		code[i] = currentKey.code
 	}
 	return strings.Join(code, "")
+}
+
+func DayTwoPartOne(directions string) string {
+	lines := strings.Split(directions, "\n")
+	keypad := make(map[int]Key)
+
+	keypad[0] = Key{"1", false, true, true, false}
+	keypad[1] = Key{"2", false, true, true, true}
+	keypad[2] = Key{"3", false, false, true, true}
+
+	keypad[3] = Key{"4", true, true, true, false}
+	keypad[4] = Key{"5", true, true, true, true}
+	keypad[5] = Key{"6", true, false, true, true}
+
+	keypad[6] = Key{"7", true, true, false, false}
+	keypad[7] = Key{"8", true, true, false, true}
+	keypad[8] = Key{"9", true, false, false, true}
+
+	return KeypadCode(lines, keypad, 4)
 }
