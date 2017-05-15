@@ -13,7 +13,7 @@ type Key struct {
 	L    bool
 }
 
-func DayTwo(directions string) string {
+func DayTwoPartOne(directions string) string {
 	lines := strings.Split(directions, "\n")
 	codeSize := len(lines)
 	code := make([]string, codeSize)
