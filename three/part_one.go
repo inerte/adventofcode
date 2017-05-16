@@ -6,7 +6,12 @@ import (
 	"strings"
 )
 
-func IsTriangle(angles string) bool {
+func IsTriangle(sidesAsInts []int) bool {
+	sort.Ints(sidesAsInts)
+	return (sidesAsInts[0] + sidesAsInts[1]) > sidesAsInts[2]
+}
+
+func LineIsTriangle(angles string) bool {
 	sidesAsString := strings.Split(angles, " ")
 	sidesAsInts := make([]int, 0)
 
@@ -27,7 +32,7 @@ func DayThreePartOne(input string) int {
 
 	for _, line := range lines {
 		cleanLine := strings.Trim(line, " ")
-		if IsTriangle(cleanLine) {
+		if LineIsTriangle(cleanLine) {
 			trianglesQty = trianglesQty + 1
 		}
 	}
