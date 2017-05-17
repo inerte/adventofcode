@@ -2,6 +2,7 @@ package four
 
 import (
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -18,9 +19,8 @@ func (p PairList) Len() int { return len(p) }
 func (p PairList) Less(i, j int) bool {
 	if p[i].Count == p[j].Count {
 		return p[i].Letter > p[j].Letter
-	} else {
-		return p[i].Count < p[j].Count
 	}
+	return p[i].Count < p[j].Count
 }
 func (p PairList) Swap(i, j int) { p[i], p[j] = p[j], p[i] }
 
@@ -42,12 +42,17 @@ func FiveMostCommonLettersInLetterCount(letterCount map[string]int) string {
 }
 
 func isRealRoom(roomName string) bool {
-	letterCount = make(map[string]int)
-
 	nameParts := strings.Split(roomName, "-")
 
 	// From https://github.com/golang/go/wiki/SliceTricks#pop
-	sectorIdAndChecksum, encryptedName := nameParts[len(nameParts)-1], nameParts[:len(nameParts)-1]
+	sectorIDAndChecksum, encryptedName := nameParts[len(nameParts)-1], nameParts[:len(nameParts)-1]
+	checksum := sectorIDAndChecksum[4 : len(sectorIDAndChecksum)-1]
+
+	return encryptedNameMatchesChecksum(encryptedName, checksum)
+}
+
+func encryptedNameMatchesChecksum(encryptedName []string, checksum string) bool {
+	letterCount = make(map[string]int)
 
 	for _, letterGroup := range encryptedName {
 		letters := strings.Split(letterGroup, "")
@@ -61,8 +66,28 @@ func isRealRoom(roomName string) bool {
 		}
 	}
 	common := FiveMostCommonLettersInLetterCount(letterCount)
-	// sectorId, _ := strconv.Atoi(sectorIdAndChecksum[:3])
-	checksum := sectorIdAndChecksum[4 : len(sectorIdAndChecksum)-1]
 
 	return common == checksum
+}
+
+func getSectorIDIfIsRealRoom(roomName string) int {
+	nameParts := strings.Split(roomName, "-")
+
+	// From https://github.com/golang/go/wiki/SliceTricks#pop
+	sectorIDAndChecksum, encryptedName := nameParts[len(nameParts)-1], nameParts[:len(nameParts)-1]
+	sectorID, _ := strconv.Atoi(sectorIDAndChecksum[:3])
+	checksum := sectorIDAndChecksum[4 : len(sectorIDAndChecksum)-1]
+
+	if encryptedNameMatchesChecksum(encryptedName, checksum) {
+		return sectorID
+	}
+	return 0
+}
+
+func DayFourPartOne(roomNames string) int {
+	sectorIDSum := 0
+	for _, roomName := range strings.Split(roomNames, "\n") {
+		sectorIDSum = sectorIDSum + getSectorIDIfIsRealRoom(roomName)
+	}
+	return sectorIDSum
 }
