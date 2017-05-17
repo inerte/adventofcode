@@ -70,13 +70,25 @@ func encryptedNameMatchesChecksum(encryptedName []string, checksum string) bool 
 	return common == checksum
 }
 
-func getSectorIDIfIsRealRoom(roomName string) int {
+func GetRoomNameParts(roomName string) ([]string, int, string) {
 	nameParts := strings.Split(roomName, "-")
+
+	var checksum string
 
 	// From https://github.com/golang/go/wiki/SliceTricks#pop
 	sectorIDAndChecksum, encryptedName := nameParts[len(nameParts)-1], nameParts[:len(nameParts)-1]
 	sectorID, _ := strconv.Atoi(sectorIDAndChecksum[:3])
-	checksum := sectorIDAndChecksum[4 : len(sectorIDAndChecksum)-1]
+	if len(sectorIDAndChecksum) > 3 {
+		checksum = sectorIDAndChecksum[4 : len(sectorIDAndChecksum)-1]
+	} else {
+		checksum = ""
+	}
+
+	return encryptedName, sectorID, checksum
+}
+
+func GetSectorIDIfIsRealRoom(roomName string) int {
+	encryptedName, sectorID, checksum := GetRoomNameParts(roomName)
 
 	if encryptedNameMatchesChecksum(encryptedName, checksum) {
 		return sectorID
@@ -87,7 +99,7 @@ func getSectorIDIfIsRealRoom(roomName string) int {
 func DayFourPartOne(roomNames string) int {
 	sectorIDSum := 0
 	for _, roomName := range strings.Split(roomNames, "\n") {
-		sectorIDSum = sectorIDSum + getSectorIDIfIsRealRoom(roomName)
+		sectorIDSum = sectorIDSum + GetSectorIDIfIsRealRoom(roomName)
 	}
 	return sectorIDSum
 }
