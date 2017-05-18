@@ -7,9 +7,9 @@ import (
 )
 
 func TestDayFivePartOne(t *testing.T) {
-	passwordOne := GetPasswordForDoorID("abc")
+	passwordOne := DayFivePartOne("abc")
 	assert.Equal(t, "18f47a30", passwordOne)
 
-	passwordFinal := GetPasswordForDoorID("wtnhxymk")
+	passwordFinal := DayFivePartOne("wtnhxymk")
 	assert.Equal(t, "2414bc77", passwordFinal)
 }

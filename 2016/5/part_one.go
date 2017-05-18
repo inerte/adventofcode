@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func GetPasswordForDoorID(doorID string) string {
+func DayFivePartOne(doorID string) string {
 	password := make([]string, 0)
 	i := 0
 	for len(password) < 8 {
