@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDayThreePartOne(t *testing.T) {
+func TestDayFourPartOne(t *testing.T) {
 	isRealRoom1 := isRealRoom("aaaaa-bbb-z-y-x-123[abxyz]")
 	assert.Equal(t, true, isRealRoom1)
 
